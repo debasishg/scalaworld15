@@ -17,7 +17,8 @@ trait TradingInterpreter extends Trading[Account, Trade, ClientOrder, Order, Exe
 
   def execute(market: Market, brokerAccount: Account) = kleisli[Valid, Order, Execution] { order =>
     println(s"order = $order")
-    fromList[StringOr, Execution](
+    // fromList[StringOr, Execution](
+    listT[StringOr](
       order.items.map { item =>
         Execution(brokerAccount, item.ins, "e-123", market, item.price, item.qty)
       }.right
